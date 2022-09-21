@@ -142,9 +142,13 @@ const titleToId = async() => {
   const resX = await res.json();
   // console.log(resX);
   console.log(movieTitle);
-  const found = resX.find(e => e.TITLE === movieTitle);  ///この列が怪しいいいいいいい！！！！！
+  const found = resX.find(e => e.TITLE === movieTitle);///この列が怪しいいいいいいい！！！！！
+  // const found = resX.find(({TITLE}) => TITLE === "Catch Me If You Can (2002)");  
   console.log(found);
   console.log(movieTitle)
+  console.log(typeof(movieTitle))
+  console.log(typeof(resX[0].TITLE))
+  console.log(resX[0].TITLE === "Scooby-Doo! and the Goblin King (2008)")
   
   // itemid = found.ITEM_ID;
   // console.log(itemid);

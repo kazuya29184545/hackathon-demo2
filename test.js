@@ -35,7 +35,10 @@
 // putMovieTitle();
 
 
-// // converting movieTitle to ItemID
+// converting movieTitle to ItemID
+// let movieTitle = "";
+// async 
+
 // async function titleToId() {
 //     const res = await fetch("./movies-2.json");
 //     const resX = await res.json();
@@ -45,3 +48,62 @@
 //     console.log(itemid)
 // }
 // titleToId();
+
+
+///////Problem code///////
+let movieTitle = "";
+
+async function callAPIGW() {
+    movieTitle = "Scooby-Doo! and the Goblin King (2008)";
+    
+    console.log(movieTitle);
+    // movieTitle = title.innerHTML;
+    // console.log(movieTitle)
+
+}
+callAPIGW();
+
+const callYtbApi = async() => {
+    
+    console.log(movieTitle);
+    
+}
+callYtbApi();
+
+const titleToId = async() => {
+  
+    const res = await fetch("./movies-2.json");
+    const resX = await res.json();
+    // console.log(resX);
+    console.log(movieTitle);
+    const found = resX.find(e => e.TITLE === movieTitle);///この列が怪しいいいいいいい！！！！！
+    // const found = resX.find(({TITLE}) => TITLE === "Catch Me If You Can (2002)");  
+    console.log(found);
+    console.log(movieTitle)
+    
+    // itemid = found.ITEM_ID;
+    // console.log(itemid);
+}
+titleToId();
+
+const test2 = async() => {
+  
+    const res = await fetch("./movies-2.json");
+    const resX = await res.json();
+    // console.log(resX);
+    console.log(movieTitle);
+    resX.forEach(object =>{
+        console.log(object);
+      });
+    // const found = resX.find(e => e.TITLE === movieTitle);///この列が怪しいいいいいいい！！！！！
+    // // const found = resX.find(({TITLE}) => TITLE === "Catch Me If You Can (2002)");  
+    // console.log(found);
+    // console.log(movieTitle)
+    
+    // itemid = found.ITEM_ID;
+    // console.log(itemid);
+}
+
+
+
+
