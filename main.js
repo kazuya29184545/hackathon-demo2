@@ -1,6 +1,8 @@
-let fileName = ""
-var movieTitle = ""
-let itemid = ""
+let fileName = "";
+var movieTitle = "";
+let itemid = "";
+let movieTitle2 = "";
+let itemid2 = "";
 
 const bucketName = "rekognition-kazuya";
 const bucketRegion = "us-west-2";
@@ -133,56 +135,73 @@ APIGWButton.addEventListener("click", () => {
 })
 
 //ここでconsole.log(movieTitle)をしても何も出ない
-console.log(movieTitle);
+// console.log(movieTitle);
 
 // converting movieTitle to ItemID
 const titleToId = async() => {
-  
+  //"The Mortal Instruments: City of Bones (2013)"
   const res = await fetch("./movies-2.json");
   const resX = await res.json();
-  // console.log(resX);
+  console.log(typeof(resX));
   console.log(movieTitle);
-  const found = resX.find(e => e.TITLE === movieTitle);///この列が怪しいいいいいいい！！！！！
+  const found = resX.find(e => e.TITLE === "Catch Me If You Can (2002)".trim());///この列が怪しいいいいいいい！！！！！
   // const found = resX.find(({TITLE}) => TITLE === "Catch Me If You Can (2002)");  
   console.log(found);
-  console.log(movieTitle)
-  console.log(typeof(movieTitle))
-  console.log(typeof(resX[0].TITLE))
-  console.log(resX[0].TITLE === "Scooby-Doo! and the Goblin King (2008)")
+  console.log(movieTitle);
+  // console.log(typeof(movieTitle))
+  // console.log(typeof(resX[0].TITLE))
+  // console.log(resX[0].TITLE === "Scooby-Doo! and the Goblin King (2008)")
   
-  // itemid = found.ITEM_ID;
-  // console.log(itemid);
+  itemid = found.ITEM_ID;
+  console.log(itemid);
 }
 
 // make a function to call APIGW for personalize
-// async function callAPIGWforPersonalize() {
-//   const res = await fetch("https://36w3uycmuj.execute-api.us-west-2.amazonaws.com/test/?item=" + itemid);
-//   const apigw = await res.json();
-//   console.log(apigw);
-// }
+async function callAPIGWforPersonalize() {
+  const res = await fetch("https://36w3uycmuj.execute-api.us-west-2.amazonaws.com/test/?item=" + itemid);
+  const apigw = await res.json();
+  console.log(apigw);
+
+  // 全部itemidに入れるの怖いから新しいグローバル変数itemid2に代入しとく、以降は2を使う。お疲れ、1。
+  itemid2 = itemid;
+  console.log(itemid2);
+}
 
 // converting ItemID to movieTitle
-// async function idToTitle() {
-//   const res = await fetch("./movies-2.json");
-//   const resX = await res.json();
-//   // console.log(resX);
-//   const found = resX.find(e => e.ITEM_ID === itemid);
-//   // console.log(found)
-//   movieTitle = found.TITLE;
-//   console.log(movieTitle)
-// }
+async function idToTitle() {
+  const res = await fetch("./movies-2.json");
+  const resX = await res.json();
+  // console.log(resX);
+  const found = resX.find(e => e.ITEM_ID === itemid2.trim());
+  console.log(found)
+
+  //　ここも怖いから2を一応作っておく。以降は2を使う。
+  movieTitle2 = found.TITLE;
+  console.log(movieTitle2);
+}
+
+const callYtbApi2 = async() => {
+  const res = await fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + movieTitle2 + "trailor&type=video&videoEmbeddable=true&regionCode=US&key=" + apikey);
+  const resJson = await res.json();
+  console.log(resJson);
+  const youtube = document.getElementById("youtube");
+  const iframeSrc = 'https://www.youtube.com/embed/' + resJson.items[0].id.videoId;
+  document.getElementById("recommendedMovie").innerHTML = movieTitle2;
+  youtube.setAttribute('src', iframeSrc);
+}
 
 // Ordering the functions
-// async function fnAsyncPersonalize() {
-//   await titleToId();
-//   callAPIGWforPersonalize();
-//   // idToTitle();
-// }
+async function fnAsyncPersonalize() {
+  await titleToId();
+  await callAPIGWforPersonalize();
+  await idToTitle();
+  callYtbApi2();
+}
 
 // call APIGW for personalize
 document.getElementById('recommend').addEventListener("click", () => {
-  // fnAsyncPersonalize();
-  titleToId();
+  fnAsyncPersonalize();
+  // titleToId();
 })
 
 
