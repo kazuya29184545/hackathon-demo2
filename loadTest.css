@@ -1,3 +1,26 @@
+html {
+    height: 100%;
+    width: 100%;
+    line-height: 0;
+}
+body {
+    position: relative;
+    font-size: 0;
+    width: 100%;
+}
+body.display {
+    background-color: black;
+}
+button {
+    position: absolute;
+    
+}
+.loadingroup {
+    position: absolute;
+    z-index: 20;
+    top: 1500%;
+    left: 45%;
+}
 #loading {
     width: 2rem;
     height: 2rem;
@@ -7,10 +30,12 @@
     margin: auto;
     visibility: hidden;
     animation: spin 1s infinite linear;
+    
 }
 
 #loading.display {
     visibility: visible;
+    background-color:red;
 }
 @keyframes spin {
     from {
@@ -25,4 +50,13 @@
 }
 #loading2.display {
     visibility: visible;
+}
+.cover {
+    position: absolute;
+    display: block;
+    z-index: 10;
+    background-color: red;
+    width: 1000px;
+    height: 1000px;
+
 }

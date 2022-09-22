@@ -8,6 +8,10 @@ const bucketName = "rekognition-kazuya";
 const bucketRegion = "us-west-2";
 const IdentityPoolId = "us-west-2:b8fef739-6ccc-408c-9110-5e41b23eee55";
 
+document.getElementById("fileBtn").addEventListener("click", () => {
+  document.querySelector("input").click();
+});
+
 AWS.config.update({
   region: bucketRegion,
   credentials: new AWS.CognitoIdentityCredentials({
@@ -80,24 +84,50 @@ uploadButton.addEventListener('click', () => {
     addPhoto();
 });
 
-deleteButton.addEventListener('click', () => {
-    deletePhoto();
-});
 
+
+
+//preparing for loading animation
+const loader = document.getElementById("loading");
+const loader2 = document.getElementById("loading2");
+const group = document.getElementById("loadingroup");
+
+// showing loading
+const displayLoading = () => {
+    loader.classList.add('display');
+    loader2.classList.add("display");
+    group.classList.add('display');
+    // stop loading after some time
+    setTimeout(() => {
+        loader.classList.remove("display");
+        loader2.classList.remove("display");
+        group.classList.remove("display");
+    }, 10000);
+}
+
+// hide loading
+const hideLoading = () => {
+    loader.classList.remove("display");
+    loader2.classList.remove("display");
+    group.classList.remove("display");
+}
 
 // Makihg function for calling APIGW
 async function callAPIGW() {
-    
+    displayLoading();
     const res = await fetch("https://4jo70ixtdk.execute-api.us-west-2.amazonaws.com/prod/?s3key=" + fileName);
     const apigw = await res.json();
     console.log(apigw);
     const title = document.getElementById("result-title");
+    const name = document.getElementById("result-name");
+    hideLoading();
     // const image = document.getElementById("result-image");
     // for (i=0; i<3; i++) {
     //   title.innerHTML = JSON.stringify(apigw[i].description.split(/[,)]/)[2]);
     //   // image.src = JSON.stringify(apigw[i].image)
       
     // }
+    name.innerHTML = JSON.stringify(apigw[0].title)
     title.innerHTML = JSON.stringify(apigw[0].description.split(/[,)]/)[2]);
     console.log(title.innerHTML + ")")
     movieTitle = title.innerHTML.slice(1, -1) + ")"
@@ -113,7 +143,7 @@ async function callAPIGW() {
 const apikey = "AIzaSyDH66hDu98Sbi0W5BsUfIBS2k5uRo6ZOgg";
 
 const callYtbApi = async() => {
-    const res = await fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + movieTitle + "trailor&type=video&videoEmbeddable=true&regionCode=US&key=" + apikey);
+    const res = await fetch("https://www.googleapis.com/youtube/v3/search?part=id&maxResults=1&q=" + movieTitle + "trailor&type=video&videoEmbeddable=true&regionCode=US&key=" + apikey);
     const resJson = await res.json();
     console.log(resJson);
     const youtube = document.getElementById("youtube");
@@ -144,7 +174,7 @@ const titleToId = async() => {
   const resX = await res.json();
   console.log(typeof(resX));
   console.log(movieTitle);
-  const found = resX.find(e => e.TITLE === "Catch Me If You Can (2002)".trim());///この列が怪しいいいいいいい！！！！！
+  const found = resX.find(e => e.TITLE === movieTitle.trim());///この列が怪しいいいいいいい！！！！！
   // const found = resX.find(({TITLE}) => TITLE === "Catch Me If You Can (2002)");  
   console.log(found);
   console.log(movieTitle);
@@ -163,7 +193,7 @@ async function callAPIGWforPersonalize() {
   console.log(apigw);
 
   // 全部itemidに入れるの怖いから新しいグローバル変数itemid2に代入しとく、以降は2を使う。お疲れ、1。
-  itemid2 = itemid;
+  itemid2 = apigw;
   console.log(itemid2);
 }
 
@@ -181,12 +211,12 @@ async function idToTitle() {
 }
 
 const callYtbApi2 = async() => {
-  const res = await fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + movieTitle2 + "trailor&type=video&videoEmbeddable=true&regionCode=US&key=" + apikey);
+  const res = await fetch("https://www.googleapis.com/youtube/v3/search?part=id&maxResults=1&q=" + movieTitle2 + "trailor&type=video&videoEmbeddable=true&regionCode=US&key=" + apikey);
   const resJson = await res.json();
   console.log(resJson);
-  const youtube = document.getElementById("youtube");
+  const youtube = document.getElementById("recommendTrailor");
   const iframeSrc = 'https://www.youtube.com/embed/' + resJson.items[0].id.videoId;
-  document.getElementById("recommendedMovie").innerHTML = movieTitle2;
+  document.getElementById("recommendTitle").innerHTML = movieTitle2;
   youtube.setAttribute('src', iframeSrc);
 }
 

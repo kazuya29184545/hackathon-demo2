@@ -1,14 +1,17 @@
 const loader = document.getElementById("loading");
-const loader2 = document.getElementById("loading2")
+const loader2 = document.getElementById("loading2");
+const body = document.querySelector("body");
 
 // showing loading
 const displayLoading = () => {
     loader.classList.add('display');
     loader2.classList.add("display");
+    body.classList.add('display');
     // stop loading after some time
     setTimeout(() => {
         loader.classList.remove("display");
         loader.classList.remove("display");
+        body.classList.remove("display");
     }, 10000);
 }
 
@@ -16,6 +19,7 @@ const displayLoading = () => {
 const hideLoading = () => {
     loader.classList.remove("display");
     loader2.classList.remove("display");
+    body.classList.remove("display");
 }
 
 

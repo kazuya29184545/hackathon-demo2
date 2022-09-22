@@ -1,47 +1,86 @@
 <!DOCTYPE html>
 <html>
   <head>
-     <!-- **DO THIS**: -->
+    <!-- **DO THIS**: -->
     <!--   Replace SDK_VERSION_NUMBER with the current SDK version number -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1210.0.min.js"></script>
-    
-    <script>
-       function getHtml(template) {
-          return template.join('\n');
-       }
-       
-    </script>
-  </head>
-  <body>
-    <h1>Find Your Actor</h1>
-    <div id="app">
-        <form>
-            <input id="chooseFile" type="file" accept="image/*" onchange="previewImage(this);">
-        </form>
-        <p>
-            Preview:<br>
-            <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;">
-        </p> 
-        <!-- <div id="preview"></div> -->
-        <button value="button" id="uploadPhoto" type="file" accept="image/*">
-            Upload
-        </button>
-        <button value="button" id="deletePhoto">
-            Delete
-        </button>
-        <button value="button" id="callAPIGW">
-            Find Movies
-        </button>
-        
-             
-    </div>
-    <div id="result-title"></div>
-    <img id="result-image" src="" alt="">
-    <iframe id="youtube" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <button id="recommend">Recommend for you</button>
-    <div id="recommendTitle"></div>
-    <iframe id="recommendTrailor" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+    <script>
+      function getHtml(template) {
+        return template.join("\n");
+      }
+    </script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <div class="title">
+      <h1>Find Your Actor is</h1>
+    </div>
+    <div id="app">
+      <div class="pics">
+        <p class="preview">
+          Preview:<br />
+          <img
+            id="preview"
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            style="max-width: 1000px"
+            class="preview-img"
+          />
+        </p>
+        <label>
+          <input
+            id="chooseFile"
+            type="file"
+            accept="image/*"
+            onchange="previewImage(this);"
+          />
+        </label>
+        <div class="btnArrow">
+            <button id="fileBtn">Select a file</button>
+            <div class="arrow"></div>
+            <button value="button" id="uploadPhoto" type="file" accept="image/*">
+            Upload
+            </button>
+        </div>
+      </div>
+      <div class="findMovies">
+        <div class="secondTitle">
+            <h2>Find Who and Where</h2>
+        </div>
+        <div id="loadingroup">
+            <div id="loading"></div>
+            <div id="loading2">Loading...</div>
+        </div>
+        <button value="button" id="callAPIGW">Find Movies</button>
+        <div class="yourActor">
+            <p>You Actor</p>
+        </div>
+        <div id="result-name"></div>
+        <div id="result-title"></div>
+        <!-- <img id="result-image" src="" alt="" /> -->
+        <iframe
+          id="youtube"
+          src=""
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          height="500px"
+        ></iframe>
+      </div>
+      <div class="recomendMovies">
+        <button id="recommend">Recommend More</button>
+        <div id="recommendTitle"></div>
+        <iframe
+          id="recommendTrailor"
+          src=""
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          height="500px"
+        ></iframe>
+      </div>
+    </div>
     <script src="./main.js"></script>
   </body>
 </html>
