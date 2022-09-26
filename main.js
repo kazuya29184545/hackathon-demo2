@@ -121,12 +121,8 @@ async function callAPIGW() {
     const title = document.getElementById("result-title");
     const name = document.getElementById("result-name");
     hideLoading();
-    // const image = document.getElementById("result-image");
-    // for (i=0; i<3; i++) {
-    //   title.innerHTML = JSON.stringify(apigw[i].description.split(/[,)]/)[2]);
-    //   // image.src = JSON.stringify(apigw[i].image)
-      
-    // }
+    
+    
     name.innerHTML = JSON.stringify(apigw[0].title)
     title.innerHTML = JSON.stringify(apigw[0].description.split(/[,)]/)[2]);
     console.log(title.innerHTML + ")")
@@ -164,7 +160,7 @@ APIGWButton.addEventListener("click", () => {
     fnAsync();
 })
 
-//ここでconsole.log(movieTitle)をしても何も出ない
+
 // console.log(movieTitle);
 
 // converting movieTitle to ItemID
@@ -174,7 +170,7 @@ const titleToId = async() => {
   const resX = await res.json();
   console.log(typeof(resX));
   console.log(movieTitle);
-  const found = resX.find(e => e.TITLE === movieTitle.trim());///この列が怪しいいいいいいい！！！！！
+  const found = resX.find(e => e.TITLE === movieTitle.trim());
   // const found = resX.find(({TITLE}) => TITLE === "Catch Me If You Can (2002)");  
   console.log(found);
   console.log(movieTitle);
@@ -238,7 +234,5 @@ document.getElementById('recommend').addEventListener("click", () => {
 
 
 
-
-//Call DynamoDB API via SDK
 
 
